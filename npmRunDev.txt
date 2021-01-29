@@ -1,0 +1,5 @@
+como seteamos en el package.json
+    "dev": "nodemon src/index.js"
+podemos usar el comando en consola
+    npm run dev 
+        Este Reemplaza a "nodemon locacion/archivo.js" 
