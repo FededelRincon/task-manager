@@ -68,6 +68,20 @@ app.patch('/users/:id', async (req, res) => {
     }
 })
 
+//delete user
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
+
+        if (!user) {
+            return res.status(404).send()
+        }
+
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
 
 //create task
@@ -130,6 +144,20 @@ app.patch('/tasks/:id', async (req, res) => {
     }
 })
 
+//delete task
+app.delete('/tasks/:id', async (req, res) => {
+    try{
+        const task = await Task.findByIdAndDelete(req.params.id)
+
+        if (!task) {
+            res.status(404).send()
+        }
+        res.send(task)
+
+    } catch (e){
+        res.status(500).send()
+    }
+})
 
 app.listen(port, () => {
     console.log(`Server is up on port: ${port}`)
