@@ -13,3 +13,22 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log(`Server is up on port: ${port}`)
 })
+
+
+//messing around with bcrypt
+const bcrypt = require('bcryptjs')
+
+const myFunction = async () => {
+    const password = 'Red12345!'
+    const hashedpassword = await bcrypt.hash(password, 8)
+
+    console.log(password)
+    console.log(hashedpassword)
+
+    const isMatch = await bcrypt.compare('Red123456!', hashedpassword)
+    console.log(isMatch)
+}
+
+
+
+myFunction()
