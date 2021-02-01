@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcryptjs')
 
-//creamos el modelo
-const User = mongoose.model('User', {
+
+//creo el esquema (basicamente se usa para poder meterle de alguna forma los middleware)
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -40,5 +42,19 @@ const User = mongoose.model('User', {
         }
     }
 })
+
+//middleware (antes del userSchema, por eso se ejecuta al cread o update algo)
+userSchema.pre('save', async function (next) {
+    const user = this
+
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+
+    next()
+})
+
+//creamos el modelo (usando el esquema, xq?, para mediante el userSchema poder meterle middleware con pre y post)
+const User = mongoose.model('User', userSchema) //mongoose usa el string 'User', lo pone en minusculas y en plural, y crea o usa la ya creada db con ese nombre
 
 module.exports = User
