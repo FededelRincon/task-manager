@@ -15,17 +15,17 @@ app.listen(port, () => {
 })
 
 
-//messing around with webtoken
-const jwt = require('jsonwebtoken')
+// //messing around with webtoken
+// const jwt = require('jsonwebtoken')
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id:'abc123' }, 'thisismynewcourse', { expiresIn: '7 days'})
-    console.log(token)
+// const myFunction = async () => {
+//     const token = jwt.sign({ _id:'abc123' }, 'thisismynewcourse', { expiresIn: '7 days'})
+//     console.log(token)
 
-    const data = jwt.verify(token, 'thisismynewcourse')
-    console.log(data) //da error o da el _id:'abc123' para que sea comparado entre db y lo q mando el usuario
-}
+//     const data = jwt.verify(token, 'thisismynewcourse')
+//     console.log(data) //da error o da el _id:'abc123' para que sea comparado entre db y lo q mando el usuario
+// }
 
 
 
-myFunction()
+// myFunction()
