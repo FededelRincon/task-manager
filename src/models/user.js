@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: true,
         trim: true,
         lowercase: true,
@@ -43,8 +44,27 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email })
+
+    if (!user) {
+        throw new Error('Unable to login ')
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password) //como sabe compare que son iguales? como sabe q numero de hash se uso?
+
+    if (!isMatch) {
+        throw new Error('Unable to login')
+    }
+
+    return user
+}
+
+
+
+//hash the plain text password before saving
 //middleware (antes del userSchema, por eso se ejecuta al cread o update algo)
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) { //usa 'save', porque es uno de los patrones que usa (pueden ser save, validator, remote, init, etc. SAVE deberia ser uno nuevo)
     const user = this
 
     if (user.isModified('password')) {
@@ -56,5 +76,6 @@ userSchema.pre('save', async function (next) {
 
 //creamos el modelo (usando el esquema, xq?, para mediante el userSchema poder meterle middleware con pre y post)
 const User = mongoose.model('User', userSchema) //mongoose usa el string 'User', lo pone en minusculas y en plural, y crea o usa la ya creada db con ese nombre
+    //Cuando alguien llama a User.findby.... le interesa el modelo, no el esquema, es el modelo quien define la coleccion, y setea el pre esquema + esquema + post esquema
 
 module.exports = User
