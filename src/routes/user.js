@@ -15,7 +15,7 @@ router.post('/users', async (req, res) => {
     }
 })
 
-//log user
+//log user (va por post, para crear un token, y por seguridad que el password no vaya por url)
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
