@@ -14,9 +14,9 @@ const port = process.env.PORT || 3000
 //     }
 // })
 
-app.use((req, res, next) => {
-    res.status(503).send('maintenance server, try again later')
-})
+// app.use((req, res, next) => {
+//     res.status(503).send('maintenance server, try again later')
+// })
 
 app.use(express.json()) //para q los datos que vienen se los pueda parsear, en por ej: req.body
 app.use(userRouter)
