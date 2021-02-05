@@ -61,6 +61,8 @@ userSchema.methods.generateAuthToken = async function () {
     return token
 }
 
+//static vs methods: static(down) act on the entire collection while methods(up) act on an individual document
+
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email })
 
@@ -68,7 +70,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
         throw new Error('Unable to login ')
     }
 
-    const isMatch = await bcrypt.compare(password, user.password) //como sabe compare que son iguales? como sabe q numero de hash se uso?
+    const isMatch = await bcrypt.compare(password, user.password)
 
     if (!isMatch) {
         throw new Error('Unable to login')

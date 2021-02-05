@@ -6,6 +6,18 @@ const taskRouter = require('./routes/task')
 const app = express()
 const port = process.env.PORT || 3000
 
+// app.use((req, res, next) => {
+//     if (req.method === 'GET') {
+//         res.send('GET request are disabled')
+//     } else {
+//         next()
+//     }
+// })
+
+app.use((req, res, next) => {
+    res.status(503).send('maintenance server, try again later')
+})
+
 app.use(express.json()) //para q los datos que vienen se los pueda parsear, en por ej: req.body
 app.use(userRouter)
 app.use(taskRouter)
